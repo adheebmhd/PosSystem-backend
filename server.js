@@ -21,6 +21,11 @@ db.connect((err) => {
   console.log("Database connected");
 });
 
+app.get("/", (req, res) => {
+  res.send("Backend running successfully!");
+});
+
+
 app.get("/bills", (req, res) => {
   db.query("SELECT * FROM bills ORDER BY id DESC", (err, data) => {
     if (err) return res.status(500).json({ success: false, error: err });
