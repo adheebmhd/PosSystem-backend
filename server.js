@@ -9,11 +9,11 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "stockdb",
-  port: 3306   // << IMPORTANT - If you changed port in XAMPP
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT   // << IMPORTANT - If you changed port in XAMPP
 });
 
 db.connect((err) => {
@@ -205,5 +205,4 @@ app.delete("/drafts/:id", (req, res) => {
 
 
 
-
-module.exports = app;
+app.listen(5000);
