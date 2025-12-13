@@ -14,6 +14,7 @@ const db = mysql.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT   // << IMPORTANT - If you changed port in XAMPP
+  
 });
 
 db.connect((err) => {
@@ -205,5 +206,5 @@ app.delete("/drafts/:id", (req, res) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running on PORT", PORT));
+module.exports = app;
 
