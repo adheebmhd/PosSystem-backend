@@ -21,10 +21,7 @@ const db = mysql.createPool({
 
 
 
-db.connect((err) => {
-  if (err) return console.log("DB Error:", err);
-  console.log("Database connected");
-});
+
 
 app.get("/", (req, res) => {
   res.send("Backend running successfully!");
