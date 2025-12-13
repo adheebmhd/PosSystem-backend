@@ -8,14 +8,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT   // << IMPORTANT - If you changed port in XAMPP
-  
+  port: process.env.DB_PORT,
+  waitForConnections: true,
+  connectionLimit: 5,
 });
+
 
 db.connect((err) => {
   if (err) return console.log("DB Error:", err);
