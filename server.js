@@ -18,12 +18,12 @@ const db = mysql.createPool({
   connectionLimit: 5,
   queueLimit: 0
 });
-const API = "https://pos-system-git-main-adheebs-projects-7c2b1661.vercel.app";
 
 
 
 
-app.get(`${API}/`, (req, res) => {
+
+app.get("/", (req, res) => {
   res.send("Backend running successfully!");
 });
 
@@ -35,14 +35,14 @@ app.get("/bills", (req, res) => {
   });
 });
 
-app.get(`${API}/stock`, (req, res) => {
+app.get("/stock", (req, res) => {
   db.query("SELECT * FROM stock", (err, data) => {
     if (err) return res.json(err);
     res.json(data);
   });
 });
 
-app.post(`${API}/stock`, (req, res) => {
+app.post("/stock", (req, res) => {
   const { name, quantity, price } = req.body;
   db.query(
     "INSERT INTO stock (name, quantity, price) VALUES (?, ?, ?)",
@@ -54,7 +54,7 @@ app.post(`${API}/stock`, (req, res) => {
   );
 });
 
-app.put(`${API}/stock :id`, (req, res) => {
+app.put("/stock/:id", (req, res) => {
   const { quantity, price } = req.body;
   db.query(
     "UPDATE stock SET quantity=?, price=? WHERE id=?",
@@ -66,7 +66,7 @@ app.put(`${API}/stock :id`, (req, res) => {
   );
 });
 
-app.delete(`${API}/stock:id`, (req, res) => {
+app.delete("/stock/:id", (req, res) => {
   db.query("DELETE FROM stock WHERE id=?", [req.params.id], (err) => {
     if (err) return res.json(err);
     res.json("Deleted");
