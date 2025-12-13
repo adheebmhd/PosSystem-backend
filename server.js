@@ -23,9 +23,7 @@ const db = mysql.createPool({
 
 
 
-app.get("/", (req, res) => {
-  res.send("Backend running successfully!");
-});
+
 
 
 app.get("/bills", (req, res) => {
@@ -35,23 +33,37 @@ app.get("/bills", (req, res) => {
   });
 });
 
-app.get("/stock", (req, res) => {
-  db.query("SELECT * FROM stock", (err, data) => {
-    if (err) return res.json(err);
-    res.json(data);
-  });
+app.get("/", async (req, res) => {
+  try {
+    await db.query("SELECT 1");
+    res.send("Backend running & DB connected ✅");
+  } catch (err) {
+    res.status(500).json({ error: "DB connection failed", details: err.message });
+  }
 });
 
-app.post("/stock", (req, res) => {
+// ================= STOCK =================
+
+app.get("/stock", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM stock");
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.post("/stock", async (req, res) => {
   const { name, quantity, price } = req.body;
-  db.query(
-    "INSERT INTO stock (name, quantity, price) VALUES (?, ?, ?)",
-    [name, quantity, price],
-    (err) => {
-      if (err) return res.json(err);
-      res.json("Added");
-    }
-  );
+  try {
+    await db.query(
+      "INSERT INTO stock (name, quantity, price) VALUES (?, ?, ?)",
+      [name, quantity, price]
+    );
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 app.put("/stock/:id", (req, res) => {
