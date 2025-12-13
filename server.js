@@ -23,7 +23,7 @@ const API = "https://pos-system-git-main-adheebs-projects-7c2b1661.vercel.app";
 
 
 
-app.get("/", (req, res) => {
+app.get(`${API}/`, (req, res) => {
   res.send("Backend running successfully!");
 });
 
